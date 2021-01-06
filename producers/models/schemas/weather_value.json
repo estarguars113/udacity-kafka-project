@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "weather_value",
+  "namespace": "cad.traffic.weather_value",
+  "fields": [
+      {"name": "temperature", "type": "int"},
+      {"name": "status", "type": "string"}
+  ]
+}
