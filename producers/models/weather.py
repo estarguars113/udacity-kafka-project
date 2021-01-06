@@ -30,12 +30,6 @@ class Weather(Producer):
     summer_months = set((6, 7, 8))
 
     def __init__(self, month):
-        #
-        #
-        # TODO: Complete the below by deciding on a topic name, number of partitions, and number of
-        # replicas
-        #
-        #
         super().__init__(
             "weather",
             key_schema=Weather.key_schema,
