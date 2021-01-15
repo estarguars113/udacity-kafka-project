@@ -25,9 +25,8 @@ class Turnstile(Producer):
             .replace("'", "")
         )
 
-        self.topic_name = "turnstile"
         super().__init__(
-            self.topic_name,
+            "turnstile",
             key_schema=Turnstile.key_schema,
             value_schema=Turnstile.value_schema,
             num_partitions=3,
@@ -43,7 +42,7 @@ class Turnstile(Producer):
         num_entries = self.turnstile_hardware.get_entries(timestamp, time_step)
         for _entry in num_entries:
             self.producer.produce(
-                topic=self.topic_name,
+                topic="turnstile",
                 key={"timestamp": self.time_millis()},
                 value={
                     "station_id": self.station.station_id,

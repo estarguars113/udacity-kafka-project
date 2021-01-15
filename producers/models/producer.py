@@ -70,6 +70,7 @@ class Producer:
             ])
 
         for topic, future in futures.items():
+            print('topic', topic, future)
             try:
                 future.result()
                 print("topic created")

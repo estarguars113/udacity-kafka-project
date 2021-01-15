@@ -18,17 +18,18 @@ class Station(Producer):
     value_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/arrival_value.json")
 
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
-        self.station_name = (
+        self.name = name
+        print("name", name)
+        station_name = (
             self.name.lower()
-            .replace("/", "_and_")
-            .replace(" ", "_")
-            .replace("-", "_")
-            .replace("'", "")
+                .replace("/", "_and_")
+                .replace(" ", "_")
+                .replace("-", "_")
+                .replace("'", "")
         )
-
-        self.topic_name = "station"
+        print("station name", station_name)
         super().__init__(
-            self.topic_name,
+            f"station_{station_name}",
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
             num_partitions=3,

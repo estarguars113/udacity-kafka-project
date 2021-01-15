@@ -3,7 +3,6 @@ import json
 import logging
 
 import requests
-
 import topic_check
 
 
@@ -20,7 +19,7 @@ CREATE TABLE turnstile(
     line VARCHAR
 ) WITH (
     KAFKA_TOPIC='turnstile',
-    VALUE_FORMAT='JSON',
+    VALUE_FORMAT='avro',
     KEY='station_id'
 );
 
@@ -37,10 +36,10 @@ def execute_statement():
     """Executes the KSQL statement against the KSQL API"""
     if topic_check.topic_exists("turnstile_summary") is True:
         return
-
+    
     logging.debug("executing ksql statement...")
     headers = {
-        "Content-Type": "application/vnd.ksql.v1+json; charset=utf-8",
+        "Content-Type": "application/vnd.ksql.v1+json",
         "Accept": "application/vnd.ksql.v1+json"
     }
     stream_properties = {"ksql.streams.auto.offset.reset": "earliest"}
