@@ -19,7 +19,6 @@ class Station(Producer):
 
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
         self.name = name
-        print("name", name)
         station_name = (
             self.name.lower()
                 .replace("/", "_and_")
@@ -27,9 +26,8 @@ class Station(Producer):
                 .replace("-", "_")
                 .replace("'", "")
         )
-        print("station name", station_name)
         super().__init__(
-            f"station_{station_name}",
+            f"train_station_{station_name}",
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
             num_partitions=3,
@@ -55,8 +53,8 @@ class Station(Producer):
                 "train_id": train.train_id,
                 "direction": direction,
                 "line": self.color.name,
-                "train_status": train.status,
-                "prev_station_id":  prev_station_id,
+                "train_status": train.status.name,
+                "prev_station_id": prev_station_id,
                 "prev_direction": prev_direction
             }
         )

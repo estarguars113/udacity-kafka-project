@@ -24,16 +24,12 @@ class Line:
         self.trains = self._build_trains()
 
     def _build_line_data(self, station_df):
-        print("build line data")
         """Constructs all stations on the line"""
         stations = station_df["station_name"].unique()
-        print("stations", stations)
         station_data = station_df[station_df["station_name"] == stations[0]]
-        print("station data", station_data)
         line = [
             Station(station_data["station_id"].unique()[0], stations[0], self.color)
         ]
-        print("line", line)
         prev_station = line[0]
         for station in stations[1:]:
             station_data = station_df[station_df["station_name"] == station]

@@ -36,11 +36,8 @@ class TimeSimulation:
             f"{Path(__file__).parents[0]}/data/cta_stations.csv"
         ).sort_values("order")
 
-        print(self.raw_df.head())
-
         # Define the train schedule (same for all trains)
         self.schedule = schedule
-        print('schedule: ', self.schedule)
         if schedule is None:
             self.schedule = {
                 TimeSimulation.weekdays.mon: {0: TimeSimulation.ten_min_frequency},
@@ -51,13 +48,11 @@ class TimeSimulation:
                 TimeSimulation.weekdays.sat: {0: TimeSimulation.ten_min_frequency},
                 TimeSimulation.weekdays.sun: {0: TimeSimulation.ten_min_frequency},
             }
-        print('schedule: ', self.schedule)
         self.train_lines = [
             Line(Line.colors.blue, self.raw_df[self.raw_df["blue"]]),
             Line(Line.colors.red, self.raw_df[self.raw_df["red"]]),
             Line(Line.colors.green, self.raw_df[self.raw_df["green"]]),
         ]
-        print("lines created", self.train_lines)
 
     def run(self):
         curr_time = datetime.datetime.utcnow().replace(

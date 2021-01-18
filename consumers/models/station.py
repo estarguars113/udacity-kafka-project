@@ -17,8 +17,6 @@ class Station:
         self.dir_a = None
         self.dir_b = None
         self.num_turnstile_entries = 0
-        print(f"station created: {self.station_id}, turnstiles: {self.num_turnstile_entries}")
-
     @classmethod
     def from_message(cls, value):
         """Given a Kafka Station message, creates and returns a station"""
