@@ -231,3 +231,32 @@ Once the simulation is running, you may hit `Ctrl+C` at any time to exit.
 5. `python server.py`
 
 Once the server is running, you may hit `Ctrl+C` at any time to exit.
+## Kafka config
+
+`
+/usr/bin/kafka-topics  --create --zookeeper localhost:2181 --topic <topic_name> --partitions <num_partitions> --replication-factor <replication_factor>
+`
+
+In my specific case I created the topic with a replication factor of 1 and 3 partitions
+
+To check if the topic was correctly created
+
+`
+/usr/bin/kafka-topics  --list --zookeeper localhost:2181
+`
+
+Describe topic created
+
+`
+/usr/bin/kafka-topics --describe --zookeeper localhost:2181 --topic <topic_name>
+`
+
+In case of error in the creation of the topic you can delete by the full name or using regular expressions to delete multiple topics. In case where it is not possible to use a regex, you can send a comma separated list of topic names
+`
+/usr/bin/kafka-topics  --zookeeper localhost:2181 --delete --topic <topic_name>
+`
+
+## Interact with schema registry
+
+In my case I needed to update the schema for some topics and I wasn't able to interact with the topics defined in the schema registry to update their schema, so I created new topics with different name, I would like to know if there's a better approach for doing this
+
