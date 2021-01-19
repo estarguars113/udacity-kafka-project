@@ -28,7 +28,7 @@ class TransformedStation(faust.Record):
     line: str
 
 app = faust.App(
-    "stations-stream", 
+    "stations", 
     broker="kafka://localhost:9092", 
     store="memory://"
 )

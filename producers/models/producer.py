@@ -48,7 +48,8 @@ class Producer:
         self.num_replicas = num_replicas
 
         self.broker_properties = {
-            'bootstrap.servers': BROKER_URL
+            'bootstrap.servers': BROKER_URL,
+            'group.id': '0'
         }
 
         # If the topic does not already exist, try to create it
