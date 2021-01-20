@@ -35,7 +35,7 @@ class KafkaConsumer:
 
         schema_registry = CachedSchemaRegistryClient(SCHEMA_REGISTRY_URL)
         self.broker_properties = {
-                "bootstrap.server": BROKER_URL,
+                "bootstrap.servers": BROKER_URL,
                 "group.id": "0",
                 "auto.offset.reset": "offset_earliest"
         }
@@ -43,8 +43,7 @@ class KafkaConsumer:
         if is_avro is True:
             self.broker_properties["schema.registry.url"] = "http://localhost:8081"
             self.consumer = AvroConsumer(
-                self.broker_properties,
-                schema_registry=schema_registry
+                self.broker_properties
             )
         else:
             self.consumer = Consumer(self.broker_properties)
