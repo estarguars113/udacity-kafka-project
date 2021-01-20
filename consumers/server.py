@@ -18,6 +18,7 @@ import topic_check
 
 
 logger = logging.getLogger(__name__)
+PORT = 8889
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -58,7 +59,7 @@ def run_server():
     application = tornado.web.Application(
         [(r"/", MainHandler, {"weather": weather_model, "lines": lines})]
     )
-    application.listen(8888)
+    application.listen(PORT)
 
     # Build kafka consumers
     consumers = [
@@ -88,7 +89,7 @@ def run_server():
 
     try:
         logger.info(
-            "Open a web browser to http://localhost:8888 to see the Transit Status Page"
+            f"Open a web browser to http://localhost:{PORT} to see the Transit Status Page"
         )
         for consumer in consumers:
             tornado.ioloop.IOLoop.current().spawn_callback(consumer.consume)
