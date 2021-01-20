@@ -4,6 +4,10 @@
   "namespace": "cad.traffic.weather_value",
   "fields": [
       {"name": "temperature", "type": "int"},
-      {"name": "status", "type": "string"}
+      {
+        "type": "enum",
+	      "name": "status",
+	      "symbols": ["sunny", "cloudy", "windy", "rainy"]
+      }
   ]
 }
