@@ -29,7 +29,7 @@ def configure_connector():
                 "name": "cta", 
                 "config": {
                     "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
-                    "topic.prefix": "jdbc_", 
+                    "topic.prefix": "", 
                     "mode": "incrementing", 
                     "incrementing.column.name": "stop_id",
                     "table.whitelist": "stations", 
