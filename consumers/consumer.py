@@ -33,15 +33,14 @@ class KafkaConsumer:
         self.consume_timeout = consume_timeout
         self.offset_earliest = offset_earliest
 
-        schema_registry = CachedSchemaRegistryClient(SCHEMA_REGISTRY_URL)
         self.broker_properties = {
                 "bootstrap.servers": BROKER_URL,
                 "group.id": "0",
-                "auto.offset.reset": "offset_earliest"
+                "auto.offset.reset": "earliest" if offset_earliest else "latest"
         }
 
         if is_avro is True:
-            self.broker_properties["schema.registry.url"] = "http://localhost:8081"
+            self.broker_properties["schema.registry.url"] = SCHEMA_REGISTRY_URL
             self.consumer = AvroConsumer(
                 self.broker_properties
             )
