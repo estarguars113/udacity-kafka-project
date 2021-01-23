@@ -32,7 +32,7 @@ app = faust.App(
     broker="kafka://localhost:9092", 
     store="memory://"
 )
-input_topic = app.topic("stations", value_type=Station)
+input_topic = app.topic("stations", value_type=Station) # given empty prefix
 out_topic = app.topic("processed_stations", partitions=1)
 table = app.Table(
     "processed_stations",
@@ -51,14 +51,16 @@ async def process_station(stations):
                 )
             )
         )
+        table[station.station_id] = line
         
-        table[station.station_id] = TransformedStation(
-                station_id=station.station_id,
-                station_name=station.station_name,
-                order=station.order,
-                line=line
-            )
+        transformed_station = TransformedStation(
+            station_id=station.station_id,
+            station_name=station.station_name,
+            order=station.order,
+            line=line
+        )
     
+        await out_topic.send(value=transformed_station)
 
 
 if __name__ == "__main__":

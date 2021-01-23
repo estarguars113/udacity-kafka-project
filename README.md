@@ -6,7 +6,6 @@ When the project is complete, you will be able to monitor a website to watch tra
 
 ![Final User Interface](images/ui.png)
 
-
 ## Prerequisites
 
 The following are required to complete this project:
@@ -255,6 +254,17 @@ In case of error in the creation of the topic you can delete by the full name or
 `
 /usr/bin/kafka-topics  --zookeeper localhost:2181 --delete --topic <topic_name>
 `
+
+After the data generated in the simulation script, check the data it's available fro onsume in the topic created
+`
+kafka-console-consumer --bootstrap-server localhost:9092 --topic station_arrival --from-beginning
+`
+
+After execute faust_stream.py check the station data processed is being saved in the corresponding topic
+`
+kafka-console-consumer --bootstrap-server localhost:9092 --topic processed_stations --from-beginning
+`
+
 
 ## Interact with schema registry
 

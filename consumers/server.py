@@ -75,12 +75,12 @@ def run_server():
             is_avro=False,
         ),
         KafkaConsumer(
-            "^train_station_",
+            "station_arrival",
             lines.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "turnstile_summary",
+            "TURNSTILE_SUMMARY",
             lines.process_message,
             offset_earliest=True,
             is_avro=False,

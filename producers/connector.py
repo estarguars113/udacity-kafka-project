@@ -26,21 +26,20 @@ def configure_connector():
         headers={"Content-Type": "application/json"},
         data=json.dumps(
             {
-                "name": "cta", 
+                "name": CONNECTOR_NAME, 
                 "config": {
                     "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
-                    "topic.prefix": "", 
-                    "mode": "incrementing", 
-                    "incrementing.column.name": "stop_id",
-                    "table.whitelist": "stations", 
-                    "tasks.max": 1,
                     "connection.url": "jdbc:postgresql://localhost:5432/cta",
+                    "table.whitelist": "stations",
+                    "mode": "incrementing",
+                    "incrementing.column.name": "stop_id",
                     "connection.user": "cta_admin",
                     "connection.password": "chicago",
                     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
                     "key.converter.schemas.enable": "false",
                     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
                     "value.converter.schemas.enable": "false",
+                    "topic.prefix": "",
                 },
             }
         ),

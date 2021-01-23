@@ -5,14 +5,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 class Station:
     """Defines the Station Model"""
 
     def __init__(self, station_id, station_name, order):
         """Creates a Station Model"""
         self.station_id = station_id
-        self.color = color
         self.station_name = station_name
         self.order = order
         self.dir_a = None

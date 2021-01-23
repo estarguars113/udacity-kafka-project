@@ -11,7 +11,7 @@ from tornado import gen
 logger = logging.getLogger(__name__)
 
 SCHEMA_REGISTRY_URL = "http://localhost:8081"
-BROKER_URL = "PLAINTEXT://localhost:9092"
+BROKER_URL = "localhost:9092"
 
 
 class KafkaConsumer:
@@ -39,6 +39,7 @@ class KafkaConsumer:
                 "auto.offset.reset": "earliest" if offset_earliest else "latest"
         }
 
+        print("consumer initialized", topic_name_pattern)
         if is_avro is True:
             self.broker_properties["schema.registry.url"] = SCHEMA_REGISTRY_URL
             self.consumer = AvroConsumer(
@@ -47,14 +48,17 @@ class KafkaConsumer:
         else:
             self.consumer = Consumer(self.broker_properties)
 
-        self.consumer.subscribe([self.topic_name_pattern])
+        self.consumer.subscribe(
+            [self.topic_name_pattern],
+            on_assign=self.on_assign
+        )
 
     def on_assign(self, consumer, partitions):
         """Callback for when topic assignment takes place"""
-        logger.info("on_assign is incomplete - skipping")
+        print("on assign", self.topic_name_pattern)
         for partition in partitions:
             consumer.seek(partition)
-
+            
         logger.info("partitions assigned for %s", self.topic_name_pattern)
         consumer.assign(partitions)
 
@@ -69,6 +73,7 @@ class KafkaConsumer:
     def _consume(self):
         """Polls for a message. Returns 1 if a message was received, 0 otherwise"""
         message = self.consumer.poll(1.0)
+        print("message", self.topic_name_pattern, message)
         if message is None:
             return 0
         elif message.error() is not None:
@@ -76,7 +81,7 @@ class KafkaConsumer:
             return 0
         else:
             try:
-                print(message.value())
+                print("consume", self.topic_name_pattern, message.value())
                 return 1
             except KeyError as e:
                 print(f"Failed to unpack message {e}")

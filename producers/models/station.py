@@ -10,7 +10,6 @@ from models.producer import Producer
 
 logger = logging.getLogger(__name__)
 
-
 class Station(Producer):
     """Defines a single station"""
 
@@ -19,7 +18,7 @@ class Station(Producer):
 
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
         self.name = name
-        station_name = (
+        _station_name = (
             self.name.lower()
                 .replace("/", "_and_")
                 .replace(" ", "_")
@@ -27,7 +26,7 @@ class Station(Producer):
                 .replace("'", "")
         )
         super().__init__(
-            f"train_station_{station_name}",
+            "station_arrival", # standarize name for all the stations
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
             num_partitions=3,
