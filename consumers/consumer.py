@@ -1,8 +1,7 @@
 """Defines core consumer functionality"""
 import logging
 
-import confluent_kafka
-from confluent_kafka import Consumer
+from confluent_kafka import Consumer, OFFSET_BEGINNING
 from confluent_kafka.avro import AvroConsumer, CachedSchemaRegistryClient
 from confluent_kafka.avro.serializer import SerializerError
 from tornado import gen
@@ -57,7 +56,7 @@ class KafkaConsumer:
         """Callback for when topic assignment takes place"""
         print("on assign", self.topic_name_pattern)
         for partition in partitions:
-            consumer.seek(partition)
+            consumer.offser = OFFSET_BEGINNING
             
         logger.info("partitions assigned for %s", self.topic_name_pattern)
         consumer.assign(partitions)
