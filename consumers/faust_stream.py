@@ -32,7 +32,7 @@ app = faust.App(
     broker="kafka://localhost:9092", 
     store="memory://"
 )
-input_topic = app.topic("raw_stations", value_type=Station)
+input_topic = app.topic("stations", value_type=Station)
 out_topic = app.topic("processed_stations", partitions=1)
 table = app.Table(
     "processed_stations",
@@ -44,17 +44,20 @@ table = app.Table(
 @app.agent(input_topic)
 async def process_station(stations):
     async for station in stations:
-        station_color = station.color
-        line = True if (station_color == "red") else "red"
+        line = (
+            "red" if station.red else(
+                "green" if station.green else(
+                    "blue" if station.blue else None
+                )
+            )
+        )
         
-        out_topic.send(
-            value=TransformedStation(
+        table[station.station_id] = TransformedStation(
                 station_id=station.station_id,
                 station_name=station.station_name,
                 order=station.order,
                 line=line
             )
-        )
     
 
 
